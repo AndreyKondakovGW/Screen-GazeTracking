@@ -61,7 +61,7 @@ def main():
         # запуск камеры
         pipeline.start(config)
     else:
-        cap = cv2.VideoCapture(-1)
+        cap = cv2.VideoCapture(0)
 
     try:
         while True:
@@ -72,11 +72,8 @@ def main():
                 color_frame,depth_frame =  parse_frames(frames)
             else:
                 ret, color_frame = cap.read()
-                print(ret)
 
             if (ret):
-                print(ret)
-                print(color_frame)
                 view_image = color_frame.copy()
             else:
                 continue

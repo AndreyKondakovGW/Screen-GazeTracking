@@ -2,6 +2,7 @@ from tkinter.tix import Tree
 import pyrealsense2 as rs
 import numpy as np
 import cv2
+import tkinter as tk
 
 from openvino_models import create_openvino__nets, detect_faces, get_face_landmark, get_head_angle, create_cv_nets, detect_eyes, get_gaze_vector
 from helpers import get_eyes_cords, get_eyes_cords_cv
@@ -21,7 +22,7 @@ class GazeEstimator:
         self.show_landmarks = show_landmarks
         self.show_gaze_point = show_gaze_point
 
-        self.win_width = 1920
+        self.win_width = 1024
         self.win_height = 957 
 
         self.face_net, self.landmarks_net, self.head_pos_net, self.gaze_net = create_openvino__nets()
@@ -72,9 +73,9 @@ class GazeEstimator:
 
             crop_face = color_frame[ymin:ymax, xmin:xmax]
             face_pos = (xmin, ymin, xmax, ymax)
-            return (False, crop_face, cx, cy, face_pos)
-        else:
             return (True, crop_face, cx, cy, face_pos)
+        else:
+            return (False, crop_face, cx, cy, face_pos)
 
     def detect_eyes(self, crop_face, face_pos, color_frame, view_image):
         xmin, ymin, xmax, ymax = face_pos
@@ -92,7 +93,9 @@ class GazeEstimator:
             if len(r_e_p) != 0 and len(l_e_p) != 0:
                 r_mp = ((r_e_p[0] + r_e_p[2]) // 2, (r_e_p[1] + r_e_p[3]) // 2)
                 l_mp = ((l_e_p[0] + l_e_p[2]) // 2, (l_e_p[1] + l_e_p[3]) // 2)
-            return True, eyes_positions, r_mp, l_mp, r_e_p, l_e_p
+                return True, eyes_positions, r_e_p, l_e_p
+            else:
+                return False, 0, 0, 0
         else:
             return False, 0, 0, 0
 
@@ -124,7 +127,7 @@ class GazeEstimator:
                         continue
                 
                 view_image = color_frame.copy()
-
+                cv2.namedWindow('RealSense face', cv2.WINDOW_AUTOSIZE)
 
                 #Определение лиц на экране
                 face_detected, crop_face, cx, cy, face_pos = self.detect_face(color_frame, view_image)
@@ -132,7 +135,6 @@ class GazeEstimator:
                 if (not face_detected):
                     print('face not detected')
                     if self.show_face or self.show_landmarks: 
-                        cv2.namedWindow('RealSense face', cv2.WINDOW_AUTOSIZE)
                         cv2.imshow('RealSense face', view_image)
                     continue
                 #Оперделим расстояние до лица
@@ -144,12 +146,12 @@ class GazeEstimator:
                 #Обрезаем квадрат лица и ищем на нём глаза
                 #Для поиска глаз сначала при помощи опенвино сети находим все точки глаз
                 #Потом с их помощью сверяем результат OpenCV сети для поиска глаз
-                eyes_detected, eyes_positions, r_mp, l_mp, r_e_p, l_e_p  = self.detect_eyes(crop_face, face_pos, color_frame, view_image)
-                
+                eyes_detected, eyes_positions, r_e_p, l_e_p  = self.detect_eyes(crop_face, face_pos, color_frame, view_image)
+                print(r_e_p, l_e_p)
+
                 if (not eyes_detected):
                     print('eyes not detected')
                     if self.show_face or self.show_landmarks: 
-                        cv2.namedWindow('RealSense face', cv2.WINDOW_AUTOSIZE)
                         cv2.imshow('RealSense face', view_image)
                     continue
                 #Определяем угол поворота головы
@@ -170,7 +172,6 @@ class GazeEstimator:
                     cv2.imshow('Gaze Point', src)
 
                 if self.show_face or self.show_landmarks: 
-                    cv2.namedWindow('RealSense face', cv2.WINDOW_AUTOSIZE)
                     cv2.imshow('RealSense face', view_image)
 
         finally:
