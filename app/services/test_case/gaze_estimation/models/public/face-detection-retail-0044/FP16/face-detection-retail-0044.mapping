@@ -1,0 +1,347 @@
+<?xml version="1.0"?>
+<mapping>
+	<map>
+		<framework name="data" output_port_id="data" />
+		<IR name="data" output_port_id="0" />
+	</map>
+	<map>
+		<framework name="BatchNorm1/variance/Fused_Add_" output_port_id="data" />
+		<IR name="BatchNorm1/variance/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="Convolution1/Fused_Add_" output_port_id="Convolution1" />
+		<IR name="Convolution1/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="ReLU1" output_port_id="Convolution1" />
+		<IR name="ReLU1" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="Pooling1" output_port_id="Pooling1" />
+		<IR name="Pooling1" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="fire2/squeeze1x1/Fused_Add_" output_port_id="fire2/squeeze1x1" />
+		<IR name="fire2/squeeze1x1/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire2/relu_squeeze1x1" output_port_id="fire2/squeeze1x1" />
+		<IR name="fire2/relu_squeeze1x1" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="fire2/expand3x3/Fused_Add_" output_port_id="fire2/expand3x3" />
+		<IR name="fire2/expand3x3/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire2/relu_expand3x3" output_port_id="fire2/expand3x3" />
+		<IR name="fire2/relu_expand3x3" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="fire2/expand1x1/Fused_Add_" output_port_id="fire2/expand1x1" />
+		<IR name="fire2/expand1x1/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire2/relu_expand1x1" output_port_id="fire2/expand1x1" />
+		<IR name="fire2/relu_expand1x1" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="Concat1" output_port_id="Concat1" />
+		<IR name="Concat1" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire3/squeeze1x1/Fused_Add_" output_port_id="fire3/squeeze1x1" />
+		<IR name="fire3/squeeze1x1/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire3/relu_squeeze1x1" output_port_id="fire3/squeeze1x1" />
+		<IR name="fire3/relu_squeeze1x1" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="fire3/expand3x3/Fused_Add_" output_port_id="fire3/expand3x3" />
+		<IR name="fire3/expand3x3/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire3/relu_expand3x3" output_port_id="fire3/expand3x3" />
+		<IR name="fire3/relu_expand3x3" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="fire3/expand1x1/Fused_Add_" output_port_id="fire3/expand1x1" />
+		<IR name="fire3/expand1x1/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire3/relu_expand1x1" output_port_id="fire3/expand1x1" />
+		<IR name="fire3/relu_expand1x1" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="Concat2" output_port_id="Concat2" />
+		<IR name="Concat2" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire4/squeeze1x1/Fused_Add_" output_port_id="fire4/squeeze1x1" />
+		<IR name="fire4/squeeze1x1/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire4/relu_squeeze1x1" output_port_id="fire4/squeeze1x1" />
+		<IR name="fire4/relu_squeeze1x1" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="fire4/expand3x3/Fused_Add_" output_port_id="fire4/expand3x3" />
+		<IR name="fire4/expand3x3/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire4/relu_expand3x3" output_port_id="fire4/expand3x3" />
+		<IR name="fire4/relu_expand3x3" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="fire4/expand1x1/Fused_Add_" output_port_id="fire4/expand1x1" />
+		<IR name="fire4/expand1x1/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire4/relu_expand1x1" output_port_id="fire4/expand1x1" />
+		<IR name="fire4/relu_expand1x1" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="Concat3" output_port_id="Concat3" />
+		<IR name="Concat3" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire5/squeeze1x1/Fused_Add_" output_port_id="fire5/squeeze1x1" />
+		<IR name="fire5/squeeze1x1/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire5/relu_squeeze1x1" output_port_id="fire5/squeeze1x1" />
+		<IR name="fire5/relu_squeeze1x1" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="fire5/expand3x3/Fused_Add_" output_port_id="fire5/expand3x3" />
+		<IR name="fire5/expand3x3/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire5/relu_expand3x3" output_port_id="fire5/expand3x3" />
+		<IR name="fire5/relu_expand3x3" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="fire5/expand1x1/Fused_Add_" output_port_id="fire5/expand1x1" />
+		<IR name="fire5/expand1x1/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire5/relu_expand1x1" output_port_id="fire5/expand1x1" />
+		<IR name="fire5/relu_expand1x1" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="Concat4" output_port_id="Concat4" />
+		<IR name="Concat4" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire6/squeeze1x1/Fused_Add_" output_port_id="fire6/squeeze1x1" />
+		<IR name="fire6/squeeze1x1/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire6/relu_squeeze1x1" output_port_id="fire6/squeeze1x1" />
+		<IR name="fire6/relu_squeeze1x1" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="fire6/expand3x3/Fused_Add_" output_port_id="fire6/expand3x3" />
+		<IR name="fire6/expand3x3/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire6/relu_expand3x3" output_port_id="fire6/expand3x3" />
+		<IR name="fire6/relu_expand3x3" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="fire6/expand1x1/Fused_Add_" output_port_id="fire6/expand1x1" />
+		<IR name="fire6/expand1x1/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire6/relu_expand1x1" output_port_id="fire6/expand1x1" />
+		<IR name="fire6/relu_expand1x1" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="Concat5" output_port_id="Concat5" />
+		<IR name="Concat5" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire7/squeeze1x1/Fused_Add_" output_port_id="fire7/squeeze1x1" />
+		<IR name="fire7/squeeze1x1/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire7/relu_squeeze1x1" output_port_id="fire7/squeeze1x1" />
+		<IR name="fire7/relu_squeeze1x1" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="fire7/expand3x3/Fused_Add_" output_port_id="fire7/expand3x3" />
+		<IR name="fire7/expand3x3/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire7/relu_expand3x3" output_port_id="fire7/expand3x3" />
+		<IR name="fire7/relu_expand3x3" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="fire7/expand1x1/Fused_Add_" output_port_id="fire7/expand1x1" />
+		<IR name="fire7/expand1x1/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire7/relu_expand1x1" output_port_id="fire7/expand1x1" />
+		<IR name="fire7/relu_expand1x1" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="Concat6" output_port_id="Concat6" />
+		<IR name="Concat6" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire8/squeeze1x1/Fused_Add_" output_port_id="fire8/squeeze1x1" />
+		<IR name="fire8/squeeze1x1/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire8/relu_squeeze1x1" output_port_id="fire8/squeeze1x1" />
+		<IR name="fire8/relu_squeeze1x1" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="fire8/expand3x3/Fused_Add_" output_port_id="fire8/expand3x3" />
+		<IR name="fire8/expand3x3/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire8/relu_expand3x3" output_port_id="fire8/expand3x3" />
+		<IR name="fire8/relu_expand3x3" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="fire8/expand1x1/Fused_Add_" output_port_id="fire8/expand1x1" />
+		<IR name="fire8/expand1x1/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire8/relu_expand1x1" output_port_id="fire8/expand1x1" />
+		<IR name="fire8/relu_expand1x1" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="Concat7" output_port_id="Concat7" />
+		<IR name="Concat7" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire9/squeeze1x1/Fused_Add_" output_port_id="fire9/squeeze1x1" />
+		<IR name="fire9/squeeze1x1/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire9/relu_squeeze1x1" output_port_id="fire9/squeeze1x1" />
+		<IR name="fire9/relu_squeeze1x1" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="fire9/expand3x3/Fused_Add_" output_port_id="fire9/expand3x3" />
+		<IR name="fire9/expand3x3/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire9/relu_expand3x3" output_port_id="fire9/expand3x3" />
+		<IR name="fire9/relu_expand3x3" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="fire9/expand1x1/Fused_Add_" output_port_id="fire9/expand1x1" />
+		<IR name="fire9/expand1x1/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire9/relu_expand1x1" output_port_id="fire9/expand1x1" />
+		<IR name="fire9/relu_expand1x1" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="Concat8" output_port_id="Concat8" />
+		<IR name="Concat8" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire10/squeeze1x1/Fused_Add_" output_port_id="fire10/squeeze1x1" />
+		<IR name="fire10/squeeze1x1/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire10/relu_squeeze1x1" output_port_id="fire10/squeeze1x1" />
+		<IR name="fire10/relu_squeeze1x1" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="fire10/expand3x3/Fused_Add_" output_port_id="fire10/expand3x3" />
+		<IR name="fire10/expand3x3/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire10/relu_expand3x3" output_port_id="fire10/expand3x3" />
+		<IR name="fire10/relu_expand3x3" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="fire10/expand1x1/Fused_Add_" output_port_id="fire10/expand1x1" />
+		<IR name="fire10/expand1x1/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire10/relu_expand1x1" output_port_id="fire10/expand1x1" />
+		<IR name="fire10/relu_expand1x1" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="Concat9" output_port_id="Concat9" />
+		<IR name="Concat9" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire11/squeeze1x1/Fused_Add_" output_port_id="fire11/squeeze1x1" />
+		<IR name="fire11/squeeze1x1/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire11/relu_squeeze1x1" output_port_id="fire11/squeeze1x1" />
+		<IR name="fire11/relu_squeeze1x1" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="fire11/expand3x3/Fused_Add_" output_port_id="fire11/expand3x3" />
+		<IR name="fire11/expand3x3/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire11/relu_expand3x3" output_port_id="fire11/expand3x3" />
+		<IR name="fire11/relu_expand3x3" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="fire11/expand1x1/Fused_Add_" output_port_id="fire11/expand1x1" />
+		<IR name="fire11/expand1x1/Fused_Add_" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fire11/relu_expand1x1" output_port_id="fire11/expand1x1" />
+		<IR name="fire11/relu_expand1x1" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="Concat10" output_port_id="fc7" />
+		<IR name="Concat10" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fc7_mbox_loc" output_port_id="fc7_mbox_loc" />
+		<IR name="fc7_mbox_loc" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fc7_mbox_loc_perm" output_port_id="fc7_mbox_loc_perm" />
+		<IR name="fc7_mbox_loc_perm" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fc7_mbox_loc_flat" output_port_id="fc7_mbox_loc_flat" />
+		<IR name="fc7_mbox_loc_flat" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fc7_mbox_conf" output_port_id="fc7_mbox_conf" />
+		<IR name="fc7_mbox_conf" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fc7_mbox_conf_perm" output_port_id="fc7_mbox_conf_perm" />
+		<IR name="fc7_mbox_conf_perm" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fc7_mbox_conf_flat" output_port_id="fc7_mbox_conf_flat" />
+		<IR name="fc7_mbox_conf_flat" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="mbox_conf_reshape" output_port_id="mbox_conf_reshape" />
+		<IR name="mbox_conf_reshape" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="mbox_conf_softmax" output_port_id="mbox_conf_softmax" />
+		<IR name="mbox_conf_softmax" output_port_id="1" />
+	</map>
+	<map>
+		<framework name="mbox_conf_flatten" output_port_id="mbox_conf_flatten" />
+		<IR name="mbox_conf_flatten" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="fc7_mbox_priorbox" output_port_id="fc7_mbox_priorbox" />
+		<IR name="fc7_mbox_priorbox" output_port_id="2" />
+	</map>
+	<map>
+		<framework name="detection_out" output_port_id="detection_out" />
+		<IR name="detection_out" output_port_id="3" />
+	</map>
+</mapping>

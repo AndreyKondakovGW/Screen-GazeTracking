@@ -1,0 +1,5 @@
+opencv-python~=4.5.5.62
+pybase64==1.2.1 
+openvino==2021.4.2         
+pyrealsense2==2.50.0.3812
+setuptools==44.0.0

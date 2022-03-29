@@ -2,7 +2,7 @@ import imp
 import cv2
 import multiprocessing as mp
 
-from app.services.test_case.gaze_estimator import GazeEstimator
+from app.services.test_case.gaze_estimation import GazeEstimator
 
 class TestCase:
     def __init__(self):
