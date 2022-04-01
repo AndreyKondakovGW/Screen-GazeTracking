@@ -2,10 +2,8 @@ import pyrealsense2 as rs
 import numpy as np
 import cv2
 
-from openvino_models import create_openvino__nets, detect_faces, get_face_landmark, get_head_angle, create_cv_nets, detect_eyes, get_gaze_vector
-from helpers import get_eyes_cords, get_eyes_cords_cv
-from gaze_vector_converter import convert_gaze_vector_to_screen, visualize
-from realsence_helper import parse_frames
+from helpers import *
+from models import *
 
 class GazeEstimator:
     def __init__(self,
@@ -15,13 +13,14 @@ class GazeEstimator:
     show_eyes = False,
     show_landmarks = False,
     show_gaze_point = True,
-    path_background_photo = "bg.jpg"):
+    path_background_photo = "background_image.jpg"):
         self.use_intel_camera = use_intel_camera
         self.show_face = show_face
         self.show_eyes = show_eyes
         self.show_landmarks = show_landmarks
         self.show_gaze_point = show_gaze_point
 
+        #Сколько последних кадров используется для расчёта вектора взгляда
         self.num_dots = num_dots
         #Массив последних точек взгляда
         self.dots = np.zeros((num_dots, 2))
@@ -37,6 +36,7 @@ class GazeEstimator:
         bg_src = cv2.imread(path_background_photo)
         self.bg = cv2.resize(bg_src, (self.win_width, self.win_height))
 
+        #Инициализируем камеру
         if self.use_intel_camera:
             self.pipeline = rs.pipeline()
             self.config = rs.config()
@@ -162,16 +162,11 @@ class GazeEstimator:
                         #Определяем угол поворота головы
                         head_angle = get_head_angle(self.head_pos_net, crop_face)
 
-
                         gaze_vector, between_eyss_point = self.detect_gaze_vector(crop_face, face_pos, head_angle, r_e_p, l_e_p, view_image)
 
                         #Конвертируем вектор взгляда в точку на экране
                         gaze_point = convert_gaze_vector_to_screen(gaze_vector, between_eyss_point, dist_to_face, self.win_width, self.win_height)
                         self.dots[frame_counter, :] = gaze_point
-
-                        #src = np.zeros((self.win_width, self.win_height, 3), np.uint8)
-                        #cv2.circle(src, (int(gaze_point[0]), int(gaze_point[1])), radius=20, color=(0,0,255), thickness=-1)
-
 
                         #Визуализируем полученные картинки
                         if self.show_gaze_point:
