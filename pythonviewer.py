@@ -5,11 +5,12 @@ import tkinter as tk
 
 from openvino_models import create_openvino__nets, detect_faces, get_face_landmark, get_head_angle, create_cv_nets, detect_eyes, get_gaze_vector
 from helpers import get_eyes_cords, get_eyes_cords_cv
-from gaze_vector_converter import convert_gaze_vector_to_screen
+from gaze_vector_converter import convert_gaze_vector_to_screen, visualize
 from realsence_helper import parse_frames
 
 def main():
-    
+    num_dots=5
+    dots = np.zeros((num_dots, 2))
     USE_INTEL_CAMERA = False
 
     #Определение размера экрана (Выпилить для запуска в докере)
@@ -17,6 +18,7 @@ def main():
     WIN_WIDTH  = root.winfo_screenwidth()
     WIN_HEIGHT  = root.winfo_screenheight()
     print(f"{WIN_WIDTH}, {WIN_HEIGHT}")
+    heatmap = np.zeros((WIN_HEIGHT, WIN_WIDTH))
     
     #WIN_WIDTH = 1920
     #WIN_HEIGHT = 957
@@ -64,15 +66,16 @@ def main():
         cap = cv2.VideoCapture(0)
 
     try:
+        k = -1
         while True:
+            k += 1
             ret = True
             #Получение кадров либо с Intel камеры либо с Вебки
             if USE_INTEL_CAMERA:
                 frames = pipeline.wait_for_frames()
-                color_frame,depth_frame =  parse_frames(frames)
+                color_frame, depth_frame =  parse_frames(frames)
             else:
                 ret, color_frame = cap.read()
-
             if (ret):
                 view_image = color_frame.copy()
             else:
@@ -123,12 +126,16 @@ def main():
                                 cv2.rectangle(view_image, (xmin +l_e_p[0], ymin +l_e_p[1]), (xmin +l_e_p[2], ymin +l_e_p[3]), (0, 0, 255), 3)
                                 cv2.circle(view_image, (xmin + int(between_eyss_point[0]),ymin + int(between_eyss_point[1])), 1, (0, 255, 0), 1)
 
-                            gaze_point = convert_gaze_vector_to_screen(gaze_vector, between_eyss_point, dist_to_face, WIN_WIDTH, WIN_HEIGHT)
-                            src = np.zeros((WIN_WIDTH,WIN_HEIGHT, 3), np.uint8)
-                            cv2.circle(src, (int(gaze_point[0]), int(gaze_point[1])), radius=20, color=(0,0,255), thickness=-1)
+                            gaze_point = convert_gaze_vector_to_screen(gaze_vector[0], between_eyss_point, dist_to_face, WIN_WIDTH, WIN_HEIGHT)
+                            dots[k % dots.shape[0], :] = gaze_point
+
+                            #src = np.zeros((WIN_WIDTH,WIN_HEIGHT, 3), np.uint8)
+
+                            #cv2.circle(src, (int(gaze_point[0]), int(gaze_point[1])), radius=20, color=(0,0,255), thickness=-1)
                             if SHOW_GAZE_POINT:
+                                heatmapshow = visualize(i % 3, dots, WIN_HEIGHT, WIN_WIDTH, heatmap)
                                 cv2.namedWindow('Gaze Point', cv2.WINDOW_FULLSCREEN)
-                                cv2.imshow('Gaze Point', src)
+                                cv2.imshow('Gaze Point', heatmapshow)
 
             
             if SHOW_FACE or SHOW_LANDMARKS: 

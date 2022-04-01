@@ -3,6 +3,7 @@ import numpy as np
 
 from openvino.inference_engine import IECore
 from helpers import rotate_image, shape_to_np
+import math
 
 face_detection_path = "./models/public/face-detection-retail-0044/FP32"
 facial_landmarks_path = "./models/intel/facial-landmarks-35-adas-0002/FP32"
@@ -171,8 +172,6 @@ def get_gaze_vector(model, img, head_angle, eyes_pos):
 
     right_eye_croped = rotate_image(right_eye_croped, roll)
     left_eye_croped = rotate_image(left_eye_croped, roll)
-    #cv2.imshow('RE1', right_eye_croped)
-    #cv2.imshow('RE2', left_eye_croped)
 
     _, _, re_net_h, re_net_w = model["net"].input_info["right_eye_image"].input_data.shape
     _, _, le_net_h, le_net_w = model["net"].input_info["left_eye_image"].input_data.shape
@@ -193,6 +192,16 @@ def get_gaze_vector(model, img, head_angle, eyes_pos):
     angles = angles.reshape((1,3))
     res = model["exec_net"].infer(inputs={"right_eye_image": right_eye_croped, "left_eye_image": left_eye_croped,"head_pose_angles": angles})
     gaze_vector = res["gaze_vector"] / cv2.norm(res["gaze_vector"])
+
+    cs = math.cos(roll) * np.pi / 180.0
+    sn = math.sin(roll) * np.pi / 180.0
+
+    tmpX = gaze_vector[0][0] * cs + gaze_vector[0][1] * sn
+    tmpY = -gaze_vector[0][0] * sn + gaze_vector[0][1] * cs
+
+    gaze_vector[0][0] = tmpX
+    gaze_vector[0][1] = tmpY
+
     return gaze_vector
     
         
