@@ -5,11 +5,11 @@ from openvino.inference_engine import IECore
 from helpers import rotate_image, shape_to_np
 import math
 
-face_detection_path = "./models/public/face-detection-retail-0044/FP32"
-facial_landmarks_path = "./models/intel/facial-landmarks-35-adas-0002/FP32"
-head_pose_estimation_path = "./models/intel/head-pose-estimation-adas-0001/FP32"
-gaze_estimation_path = "./models/intel/gaze-estimation-adas-0002/FP32"
-open_closed_eye_path = "./models/public/open-closed-eye-0001/FP32"
+face_detection_path = "./models/public/face-detection-retail-0044/FP16"
+facial_landmarks_path = "./models/intel/facial-landmarks-35-adas-0002/FP16"
+head_pose_estimation_path = "./models/intel/head-pose-estimation-adas-0001/FP16"
+gaze_estimation_path = "./models/intel/gaze-estimation-adas-0002/FP16"
+open_closed_eye_path = "./models/public/open-closed-eye-0001/FP16"
 
 cv_cascade_path = "./models/cvEyesDetect/haarcascade_eye.xml"
 dlib_model_path = "./models/cvEyesDetect/shape_predictor_68_face_landmarks.dat"
@@ -95,15 +95,31 @@ def detect_faces(model, img):
         detections = res['boxes']
 
     faces = []
+    max_face_size = 0
     for i, detection in enumerate(detections):
         _, _, confidence, xmin, ymin, xmax, ymax = detection
 
         if confidence > 0.5:
+            if xmin < 0:
+                xmin = 0
+            if xmax < 0:
+                xmax = 0
+            if ymin < 0:
+                ymin = 0
+            if ymax < 0:
+                ymax = 0
+
+            width = abs(xmin - xmax)
+            height = abs(xmin - xmax)
+            
             xmin = int(xmin * w)
             ymin = int(ymin * h)
             xmax = int(xmax * w)
             ymax = int(ymax * h)
             faces.append((xmin, ymin, xmax, ymax))
+            if (width*height > max_face_size):
+                max_face_size = width*height
+                faces[0] = (xmin, ymin, xmax, ymax)
     return faces
 
 def get_face_landmark(model, img):
@@ -170,8 +186,8 @@ def get_gaze_vector(model, img, head_angle, eyes_pos):
 
     yaw, pitch, roll = head_angle
 
-    right_eye_croped = rotate_image(right_eye_croped, roll)
-    left_eye_croped = rotate_image(left_eye_croped, roll)
+    #right_eye_croped = rotate_image(right_eye_croped, roll)
+    #left_eye_croped = rotate_image(left_eye_croped, roll)
 
     _, _, re_net_h, re_net_w = model["net"].input_info["right_eye_image"].input_data.shape
     _, _, le_net_h, le_net_w = model["net"].input_info["left_eye_image"].input_data.shape
@@ -193,14 +209,14 @@ def get_gaze_vector(model, img, head_angle, eyes_pos):
     res = model["exec_net"].infer(inputs={"right_eye_image": right_eye_croped, "left_eye_image": left_eye_croped,"head_pose_angles": angles})
     gaze_vector = res["gaze_vector"] / cv2.norm(res["gaze_vector"])
 
-    cs = math.cos(roll) * np.pi / 180.0
-    sn = math.sin(roll) * np.pi / 180.0
+    #cs = math.cos(roll) * np.pi / 180.0
+    #sn = math.sin(roll) * np.pi / 180.0
 
-    tmpX = gaze_vector[0][0] * cs + gaze_vector[0][1] * sn
-    tmpY = -gaze_vector[0][0] * sn + gaze_vector[0][1] * cs
+    #tmpX = gaze_vector[0][0] * cs + gaze_vector[0][1] * sn
+    #tmpY = -gaze_vector[0][0] * sn + gaze_vector[0][1] * cs
 
-    gaze_vector[0][0] = tmpX
-    gaze_vector[0][1] = tmpY
+    #gaze_vector[0][0] = tmpX
+    #gaze_vector[0][1] = tmpY
 
     return gaze_vector
     

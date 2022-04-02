@@ -2,9 +2,9 @@ import numpy as np
 import cv2
 
 def convert_gaze_vector_to_screen(gaze_vector, between_eyes, face_distance, screen_width, screen_height):
-    eps = 1e-9
-    norm = np.linalg.norm(gaze_vector)
-    gaze_vector /= (1 if norm <= eps else norm)
+    #eps = 1e-9
+    #norm = np.linalg.norm(gaze_vector)
+    #gaze_vector /= (1 if norm <= eps else norm)
     #gaze_vector = rotate(gaze_vector, between_eyes, screen_width)
     gaze_vector[:-1] *= -1
     m, p, l = gaze_vector

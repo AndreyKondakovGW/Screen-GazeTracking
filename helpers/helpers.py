@@ -1,4 +1,5 @@
 import cv2
+from math import sqrt
 import numpy as np
 
 def get_eyes_cords(landmark_points):
@@ -41,6 +42,35 @@ def get_eyes_cords_cv(landmark_points, eyes_positions):
             if e_p_x1>=lp1[0]:
                 l_e_p = [e_p_x1, e_p_y1, e_p_x2, e_p_y2]
     return  r_e_p, l_e_p
+
+def get_eyes_cords_from_landmarks(landmark_points):
+    lp0 = landmark_points[0]
+    lp1 = landmark_points[1]
+    lp2 = landmark_points[2]
+    lp3 = landmark_points[3]
+
+    l_e = get_eyes_box(lp0, lp1)
+    r_e = get_eyes_box(lp2, lp3)
+
+    return  r_e, l_e
+
+
+
+def get_eyes_box(p1, p2, scale = 1.8):
+    width = abs(p1[0] - p2[0])
+    height = abs(p1[1] - p2[1])
+    size = sqrt(height**2 + width**2)
+
+    eye_width = int(size * scale)
+    eye_height = eye_width
+
+    mid_pointX = (p1[0] + p2[0]) // 2
+    mid_pointY = (p1[1] + p2[1]) // 2
+
+    x1,x2 = mid_pointX - (eye_width // 2), mid_pointX + (eye_width // 2)
+    y1,y2 = mid_pointY - (eye_height // 2), mid_pointY + (eye_height // 2)
+
+    return [x1, y1, x2, y2]
 
 
 def rotate_image(image, angle):

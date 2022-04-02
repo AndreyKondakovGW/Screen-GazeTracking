@@ -97,7 +97,8 @@ class GazeEstimator:
 
         #Если глаза найденны находим их центр и ищем вектор взгляда
         if len(landmark_points) != 0 and len(eyes_positions) != 0:
-            r_e_p, l_e_p = get_eyes_cords_cv(landmark_points, eyes_positions)
+            #r_e_p, l_e_p = get_eyes_cords_cv(landmark_points, eyes_positions)
+            r_e_p, l_e_p = get_eyes_cords_from_landmarks(landmark_points)
                             
             if len(r_e_p) != 0 and len(l_e_p) != 0:
                 r_mp = ((r_e_p[0] + r_e_p[2]) // 2, (r_e_p[1] + r_e_p[3]) // 2)
@@ -111,7 +112,7 @@ class GazeEstimator:
     def detect_gaze_vector(self, crop_face, face_pos, head_angle, r_e_p, l_e_p, view_image):
         xmin, ymin, xmax, ymax = face_pos
         gaze_vector = get_gaze_vector(self.gaze_net, crop_face, head_angle, [r_e_p, l_e_p])
-        print(f" Gaze vector {gaze_vector[0]}")
+        print(f"Gaze vector {gaze_vector[0]}")
 
         between_eyss_point = (np.mean(np.array([r_e_p[0], r_e_p[2], l_e_p[0], l_e_p[2]])),np.mean(np.array([r_e_p[1], r_e_p[3], l_e_p[1], l_e_p[3]])))
         if self.show_eyes:
@@ -138,8 +139,6 @@ class GazeEstimator:
                 
                 if ret:
                     view_image = color_frame.copy()
-                    cv2.namedWindow('RealSense face', cv2.WINDOW_AUTOSIZE) 
-                    cv2.imshow('RealSense face', view_image)
                 else:
                     continue
                 
@@ -187,5 +186,5 @@ class GazeEstimator:
 
 
 
-gaze_estim = GazeEstimator()
-gaze_estim.gen_frames()
+gaze_estim = GazeEstimator(show_gaze_point = True, use_intel_camera = True)
+gaze_estim.gen_frames() 
