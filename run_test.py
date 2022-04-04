@@ -122,6 +122,26 @@ class GazeEstimator:
 
         return gaze_vector[0], between_eyss_point
 
+    #Функция детектет на картинке лицо и определяет по нему вектор взгляда (нужна для тестов)
+    def get_info_by_image(self, path):
+        color_frame = cv2.imread(path)
+        view_image = color_frame.copy()
+        face_detected, crop_face, cx, cy, face_pos = self.detect_face(color_frame, view_image)
+        if (face_detected):
+            eyes_detected, eyes_positions, r_e_p, l_e_p  = self.detect_eyes(crop_face, face_pos, color_frame, view_image)
+            if (eyes_detected):
+                head_angle = get_head_angle(self.head_pos_net, crop_face)
+                gaze_vector, between_eyss_point = self.detect_gaze_vector(crop_face, face_pos, head_angle, r_e_p, l_e_p, view_image)
+            else:
+                print('Eyes not detected')
+        else:
+            print('Face not detected')
+
+        cv2.namedWindow('Image')
+        cv2.imshow('Image', view_image)
+        cv2.waitKey(0)
+
+
     def gen_frames(self):
         if self.use_intel_camera:
             # запуск камеры
@@ -186,5 +206,6 @@ class GazeEstimator:
 
 
 
-gaze_estim = GazeEstimator(show_gaze_point = True, use_intel_camera = True)
-gaze_estim.gen_frames() 
+gaze_estim = GazeEstimator(show_gaze_point = True, use_intel_camera = True, show_face = True, show_eyes = True)
+gaze_estim.get_info_by_image('./face.jpg')
+#gaze_estim.gen_frames() 
